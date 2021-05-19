@@ -1,0 +1,27 @@
+version: '3'
+services:
+  vakra:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    working_dir: /vakra
+    environment: 
+      - RAILS_ENV=development
+    volumes:
+      - .:/vakra
+    ports:
+      - '3000:3000'
+    depends_on: 
+      - vakradb
+    networks: 
+      - vakranetwork
+  vakradb:
+    image: postgres
+    environment:
+      - POSTGRES_USER=vakra
+      - POSTGRES_PASSWORD=vakradb
+      - POSTGRES_DB=vakra
+    networks: 
+      - vakranetwork
+networks:
+  vakranetwork:
+    driver: bridge
