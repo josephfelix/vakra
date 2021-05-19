@@ -1,5 +1,13 @@
-all: run
+DOCKERCOMPOSE 	?= $(shell which docker-compose)
+XDGOPEN					?= $(shell which xdg-open)
+PYTHON 					?= $(shell which python)
+NAVIGATOR				?= $(if $(PYTHON),$(PYTHON) -m webbrowser,$(XDGOPEN))
+
+all: setup run
+setup:
+	$(DOCKERCOMPOSE) build
 run:
-	docker-compose up --build
+	$(NAVIGATOR) http://127.0.0.1:3000
+	$(DOCKERCOMPOSE) up
 down:
-	docker-compose down
+	$(DOCKERCOMPOSE) down
